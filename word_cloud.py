@@ -149,12 +149,12 @@ def split_string(source, splitlist):
                 source = source[location+1:]
     return split
             
-def add_page_to_index(index, url, content):
+def add_page_to_index_word_cloud(index, word_cloud, url, content,):
     words = split_string(content, " ,!-<>=") # modify the split characters if necessary
-    count_words(words)
+    add_to_word_cloud(word_cloud, url, words) # builds the word_cloud index
     for word in words:
         add_to_index(index, word, url)
-        
+               
 def add_to_index(index, keyword, url):
     if keyword in index:
         index[keyword].append(url)
@@ -203,10 +203,17 @@ def quicksort_pages(pages, ranks):
                 better.append(page)
         return quicksort_pages(better, ranks) + [pages[0]] + quicksort_pages(worse, ranks)
         
+# Added a new definition for output to include wordcloud results
+def quicksort_pages_word_cloud(pages, ranks, word_cloud):
+    ranked_pages_with_word_cloud = {} # <url>:{word_cloud}
+    for page in quicksort_pages(pages, ranks):
+        ranked_pages_with_word_cloud[page] = word_cloud[page]
+    return ranked_pages_with_word_cloud
+    
 # From Homework 6 Starred 3 Ordered Search
 def ordered_search(index, ranks, keyword):
     pages = lookup(index, keyword)
-    return quicksort_pages(pages, ranks)
+    return quicksort_pages_word_cloud(pages, ranks, word_cloud)
 
 # Count words takes a list as an input and returns a dictonary of word and their count pairs          
 def count_words(p):
@@ -217,27 +224,33 @@ def count_words(p):
             pass
         else:
             counted_words[word] = num
-    print counted_words
-        
+    return counted_words
+
+def add_to_word_cloud(word_cloud, url, word_list):
+    if url in word_cloud:
+        pass
+    else:
+        word_cloud[url] = count_words(word_list) # calls on count_word to provide a dictonary of word and count pairs
+    return word_cloud
+    
 def crawl_web(seed): # returns index, graph of inlinks
     tocrawl = [seed]
     crawled = []
     graph = {}  # <url>, [list of pages it links to]
     index = {}
-    word_cloud = {} # <url>, [list of words on that url and their count]
+    word_cloud = {} # {<URL>: {word1:count, word2:count, ...}}
     while tocrawl: 
         page = tocrawl.pop()
         if page not in crawled:
             content = get_page(page)
-            add_page_to_index(index, page, content)
+            add_page_to_index_word_cloud(index, word_cloud, page, content)
             outlinks = get_all_links(content)
             graph[page] = outlinks
-            #word_cloud[page] = 
             union(tocrawl, outlinks)
             crawled.append(page)
-    return index, graph
+    return index, graph, word_cloud
 
-index, graph = crawl_web('http://udacity.com/cs101x/urank/index.html')
+index, graph, word_cloud = crawl_web('http://udacity.com/cs101x/urank/index.html')
 ranks = compute_ranks(graph)
 
 print ordered_search(index, ranks, 'Hummus')
