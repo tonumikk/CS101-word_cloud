@@ -150,7 +150,7 @@ def split_string(source, splitlist):
     return split
             
 def add_page_to_index_word_cloud(index, word_cloud, url, content,):
-    words = split_string(content, " ,!-<>=") # modify the split characters if necessary
+    words = split_string(content, " ,!-<>='\'/") # modify the split characters if necessary
     add_to_word_cloud(word_cloud, url, words) # builds the word_cloud index
     for word in words:
         add_to_index(index, word, url)
@@ -215,12 +215,17 @@ def ordered_search(index, ranks, keyword):
     pages = lookup(index, keyword)
     return quicksort_pages_word_cloud(pages, ranks, word_cloud)
 
-# Count words takes a list as an input and returns a dictonary of word and their count pairs          
+# Count words takes a list as an input and returns a dictonary of word and their count pairs         
+ignore_list = ['is', 'li', 'the', 'are', 'h1', 'html', '\n', 'ul', '"http:', 'href', 'a', 'ul', 'ol', 'in'] 
 def count_words(p):
     counted_words = {}
     for word in p:
         num = p.count(word)
-        if word in counted_words:
+        if word in ignore_list:
+            pass
+        elif word in counted_words:
+            pass
+        elif num < 2: # Only count if the word appears more than once
             pass
         else:
             counted_words[word] = num
