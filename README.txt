@@ -3,6 +3,7 @@ Tonu Mikk 04/13/2012
 
 Project Title:  Ranked search results with word cloud
 Project Goal: For each search result create a word cloud of most frequently appearing words in each search result page and display the word cloud results with the returned page.
+Project Result: "word_cloud.py" file.  The file "search_enging_code_from_unit7.py" is provided here for reference.
 
 For this project I did the following:
 1.  Started with the finished search engine code from Unit 7 supplementary materials.
@@ -21,3 +22,5 @@ For this project I did the following:
 10.  Added the "quicksort_pages_word_cloud" to output the ranked search results each accompanied by a word cloud of 5 most frequently appearing words.
 11.  Modified the "ordered_search_word_cloud" function to return "None" if there are no pages found with a given keyword.
 12.  Added test cases and the output that they generate.
+
+Note:  Not all of these changes are reflected in the commits to the word_cloud.py. 
