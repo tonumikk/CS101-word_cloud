@@ -23,4 +23,4 @@ For this project I did the following:
 11.  Modified the "ordered_search_word_cloud" function to return "None" if there are no pages found with a given keyword.
 12.  Added test cases and the output that they generate.
 
-Note:  Not all of these changes are reflected in the commits to the word_cloud.py. 
+Note:  Not all of these changes are reflected in the commits to the word_cloud.py. I had made several changes before I started the repository.
