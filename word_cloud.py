@@ -63,7 +63,7 @@ Kathleen's Hummus Recipe
 <ol>
 <li> Open a can of garbonzo beans.
 <li> Crush them in a blender.
-<li> Add 3 tablesppons of tahini sauce.
+<li> Add 3 tablespoons of tahini sauce.
 <li> Squeeze in one lemon.
 <li> Add salt, pepper, and buttercream frosting to taste.
 </ol>
@@ -263,26 +263,22 @@ def crawl_web(seed): # returns index, graph of inlinks
 index, graph, word_cloud = crawl_web('http://udacity.com/cs101x/urank/index.html')
 ranks = compute_ranks(graph)
 
-print ordered_search_word_cloud(index, ranks, 'Hummus')
+#print ordered_search_word_cloud(index, ranks, 'Hummus')
 #>>> {'http://udacity.com/cs101x/urank/index.html': [('urank', 5), ('udacity.com', 5), ('cs101x', 5), ('Hummus', 3), ('s', 3)],
 #'http://udacity.com/cs101x/urank/kathleen.html': [('body', 2), ('of', 2), ('Add', 2), ('\n\n', 2)],
 #'http://udacity.com/cs101x/urank/arsenic.html': [('body', 2), ('Chef', 2), ('\n\n', 2)], 
 #'http://udacity.com/cs101x/urank/nickel.html': [('body', 2)]}
 
-# print ordered_search_word_cloud(index, ranks, 'Chef')
-#>>> {'http://udacity.com/cs101x/urank/zinc.html': [('p', 3), ('body', 2), ('Chef', 2), ('urank', 2), ('udacity.com', 2)],
-# 'http://udacity.com/cs101x/urank/arsenic.html': [('body', 2), ('Chef', 2), ('\n\n', 2)], 
-# 'http://udacity.com/cs101x/urank/nickel.html': [('body', 2)], 
-# 'http://udacity.com/cs101x/urank/index.html': [('urank', 5), ('udacity.com', 5), ('cs101x',5), ('Hummus', 3), ('s', 3)]}
-
-# print ordered_search_word_cloud(index, ranks, 'lemon')
-#>>> None
+#print ordered_search_word_cloud(index, ranks, 'garbonzo')
+#>>> {'http://udacity.com/cs101x/urank/kathleen.html': [('body', 2), ('of', 2), ('Add', 2), ('\n\n', 2)]}
 
 #print ordered_search_word_cloud(index, ranks, 'Chef')
 #>>> {'http://udacity.com/cs101x/urank/zinc.html': [('p', 3), ('body', 2), ('Chef', 2), ('urank', 2), ('udacity.com', 2)],
 # 'http://udacity.com/cs101x/urank/arsenic.html': [('body', 2), ('Chef', 2), ('\n\n', 2)], 
 # 'http://udacity.com/cs101x/urank/nickel.html': [('body', 2)], 
 # 'http://udacity.com/cs101x/urank/index.html': [('urank', 5), ('udacity.com', 5), ('cs101x', 5), ('Hummus', 3), ('s', 3)]}
-    
+
+#print ordered_search_word_cloud(index, ranks, 'Taurus')
+#>>> None    
 
 
