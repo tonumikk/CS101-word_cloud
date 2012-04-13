@@ -132,7 +132,7 @@ def get_all_links(page):
 
 
 def union(a, b):
-    for e in b: #Coun
+    for e in b: 
         if e not in a:
             a.append(e)
             
@@ -248,7 +248,7 @@ def crawl_web(seed): # returns index, graph of inlinks
     crawled = []
     graph = {}  # <url>, [list of pages it links to]
     index = {}
-    word_cloud = {} # {<URL>: [(word1,count), (word2,count), ...}
+    word_cloud = {} # {<URL>: [(word1,count), (word2,count), ...]}
     while tocrawl: 
         page = tocrawl.pop()
         if page not in crawled:
@@ -263,7 +263,7 @@ def crawl_web(seed): # returns index, graph of inlinks
 index, graph, word_cloud = crawl_web('http://udacity.com/cs101x/urank/index.html')
 ranks = compute_ranks(graph)
 
-# print ordered_search_word_cloud(index, ranks, 'Hummus')
+print ordered_search_word_cloud(index, ranks, 'Hummus')
 #>>> {'http://udacity.com/cs101x/urank/index.html': [('urank', 5), ('udacity.com', 5), ('cs101x', 5), ('Hummus', 3), ('s', 3)],
 #'http://udacity.com/cs101x/urank/kathleen.html': [('body', 2), ('of', 2), ('Add', 2), ('\n\n', 2)],
 #'http://udacity.com/cs101x/urank/arsenic.html': [('body', 2), ('Chef', 2), ('\n\n', 2)], 
@@ -278,7 +278,7 @@ ranks = compute_ranks(graph)
 # print ordered_search_word_cloud(index, ranks, 'lemon')
 #>>> None
 
-print ordered_search_word_cloud(index, ranks, 'Chef')
+#print ordered_search_word_cloud(index, ranks, 'Chef')
 #>>> {'http://udacity.com/cs101x/urank/zinc.html': [('p', 3), ('body', 2), ('Chef', 2), ('urank', 2), ('udacity.com', 2)],
 # 'http://udacity.com/cs101x/urank/arsenic.html': [('body', 2), ('Chef', 2), ('\n\n', 2)], 
 # 'http://udacity.com/cs101x/urank/nickel.html': [('body', 2)], 
