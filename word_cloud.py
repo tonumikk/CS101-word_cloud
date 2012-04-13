@@ -205,15 +205,18 @@ def quicksort_pages(pages, ranks):
         
 # Added a new definition for output to include wordcloud results
 def quicksort_pages_word_cloud(pages, ranks, word_cloud):
-    ranked_pages_with_word_cloud = {} # <url>:{word_cloud}
+    ranked_pages_with_word_cloud = {} # {<url>:[(word,count), (word1,count), ...]}
     for page in quicksort_pages(pages, ranks):
-        ranked_pages_with_word_cloud[page] = word_cloud[page]
+        ranked_pages_with_word_cloud[page] = word_cloud[page][0:5] # return 5 highest occurring words and their count
     return ranked_pages_with_word_cloud
     
 # From Homework 6 Starred 3 Ordered Search
-def ordered_search(index, ranks, keyword):
+def ordered_search_word_cloud(index, ranks, keyword):
     pages = lookup(index, keyword)
-    return quicksort_pages_word_cloud(pages, ranks, word_cloud)
+    if pages == None:                   # Added a check to return None if there are no pages found for a given keyword
+        return None
+    else:
+        return quicksort_pages_word_cloud(pages, ranks, word_cloud)
 
 # Count words takes a list as an input and returns a dictonary of word and their count pairs         
 ignore_list = ['is', 'li', 'the', 'are', 'h1', 'html', '\n', 'ul', '"http:', 'href', 'a', 'ul', 'ol', 'in'] 
@@ -229,7 +232,9 @@ def count_words(p):
             pass
         else:
             counted_words[word] = num
-    return counted_words
+    ordered_dict = (sorted(counted_words.items(), key=lambda t: t[1], reverse = True)) # sort the dictonary resulting in list of tuples sorted by 
+                                                                                        # most frequently appearing words first
+    return ordered_dict
 
 def add_to_word_cloud(word_cloud, url, word_list):
     if url in word_cloud:
@@ -243,7 +248,7 @@ def crawl_web(seed): # returns index, graph of inlinks
     crawled = []
     graph = {}  # <url>, [list of pages it links to]
     index = {}
-    word_cloud = {} # {<URL>: {word1:count, word2:count, ...}}
+    word_cloud = {} # {<URL>: [(word1,count), (word2,count), ...}
     while tocrawl: 
         page = tocrawl.pop()
         if page not in crawled:
@@ -258,17 +263,26 @@ def crawl_web(seed): # returns index, graph of inlinks
 index, graph, word_cloud = crawl_web('http://udacity.com/cs101x/urank/index.html')
 ranks = compute_ranks(graph)
 
-print ordered_search(index, ranks, 'Hummus')
-#>>> http://udacity.com/cs101x/urank/kathleen.html
+# print ordered_search_word_cloud(index, ranks, 'Hummus')
+#>>> {'http://udacity.com/cs101x/urank/index.html': [('urank', 5), ('udacity.com', 5), ('cs101x', 5), ('Hummus', 3), ('s', 3)],
+#'http://udacity.com/cs101x/urank/kathleen.html': [('body', 2), ('of', 2), ('Add', 2), ('\n\n', 2)],
+#'http://udacity.com/cs101x/urank/arsenic.html': [('body', 2), ('Chef', 2), ('\n\n', 2)], 
+#'http://udacity.com/cs101x/urank/nickel.html': [('body', 2)]}
 
-#print ordered_search(index, ranks, 'the')
-#>>> http://udacity.com/cs101x/urank/nickel.html
+# print ordered_search_word_cloud(index, ranks, 'Chef')
+#>>> {'http://udacity.com/cs101x/urank/zinc.html': [('p', 3), ('body', 2), ('Chef', 2), ('urank', 2), ('udacity.com', 2)],
+# 'http://udacity.com/cs101x/urank/arsenic.html': [('body', 2), ('Chef', 2), ('\n\n', 2)], 
+# 'http://udacity.com/cs101x/urank/nickel.html': [('body', 2)], 
+# 'http://udacity.com/cs101x/urank/index.html': [('urank', 5), ('udacity.com', 5), ('cs101x',5), ('Hummus', 3), ('s', 3)]}
 
-#print ordered_search(index, ranks, 'lemon.')
-#>>> http://udacity.com/cs101x/urank/kathleen.html
-
-#print ordered_search(index, ranks, 'babaganoush')
+# print ordered_search_word_cloud(index, ranks, 'lemon')
 #>>> None
+
+print ordered_search_word_cloud(index, ranks, 'Chef')
+#>>> {'http://udacity.com/cs101x/urank/zinc.html': [('p', 3), ('body', 2), ('Chef', 2), ('urank', 2), ('udacity.com', 2)],
+# 'http://udacity.com/cs101x/urank/arsenic.html': [('body', 2), ('Chef', 2), ('\n\n', 2)], 
+# 'http://udacity.com/cs101x/urank/nickel.html': [('body', 2)], 
+# 'http://udacity.com/cs101x/urank/index.html': [('urank', 5), ('udacity.com', 5), ('cs101x', 5), ('Hummus', 3), ('s', 3)]}
     
 
 
